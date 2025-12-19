@@ -1,0 +1,533 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime @map("expires") // Map to existing 'expires' column for compatibility
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  
+  // System Role (SaaS Level)
+  role          Role          @default(CLIENT)
+  
+  // Organization Link
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  
+  // Organization Role (Practice Level)
+  orgRole       OrgRole       @default(MEMBER)
+  
+  accounts      Account[]
+  sessions      Session[]
+  messagesSent  Message[]
+  callNotes     CallNote[]
+  callAssignmentsAssigned CallAssignment[] @relation("AssignedTo")
+  callAssignmentsAssignedBy CallAssignment[] @relation("AssignedBy")
+  callTasks     CallTask[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Organization {
+  id            String   @id @default(cuid())
+  name          String
+  joinCode      String   @unique
+  googleSheetId String?  // Made optional - not all orgs use sheets
+  
+  // Enhanced Branding & Settings
+  logo          String?
+  contactEmail  String?
+  timezone      String?  @default("UTC")
+  isActive      Boolean  @default(true)
+  chatbotEmbedCode String? @db.Text
+  chatbotGradientColor1 String? @default("#1e5eff")
+  chatbotGradientColor2 String? @default("#5860f4")
+  chatbotGradientColor3 String? @default("#7c3aed")
+  chatbotGradientColor4 String? @default("#dcd6ff")
+  chatbotAvatars        String? @db.Text // JSON array of avatar URLs
+  chatbotBrandLogo       String?
+  
+  // === INTEGRATIONS ===
+  // Vapi Voice AI
+  vapiApiKey            String?  // Organization's Vapi API key
+  vapiAssistantId       String?  // Default assistant ID for this org
+  voiceAiEnabled        Boolean  @default(false)
+  
+  // Google Calendar
+  googleCalendarId      String?  // Calendar ID for appointments
+  googleCalendarEnabled Boolean  @default(false)
+  
+  // SMS / Campaigns (n8n-driven)
+  smsEnabled              Boolean  @default(false)
+  smsReminderWebhookUrl   String?  // n8n webhook for reminders
+  smsFollowUpWebhookUrl   String?  // n8n webhook for follow-ups
+
+  // Chatbot Webhook
+  chatbotWebhookUrl     String?  // n8n or custom webhook URL
+  
+  users         User[]
+  leads         Lead[]
+  appointments  Appointment[]
+  reminders     Reminder[]
+  smsCampaigns  SMSCampaign[]
+  smsExecutions SMSExecution[]
+  activityLogs  ActivityLog[]
+  channels      Channel[]
+  voiceCalls    VoiceCall[]
+  callTags      CallTag[]
+  automationRules CallAutomationRule[]
+  callWebhooks  CallWebhook[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  
+  // Core Data
+  name      String
+  email     String
+  phone     String?
+  source    String?
+  status    String   @default("NEW") // NEW, CONTACTED, QUALIFIED, CLOSED
+  category  String?  // SALES, SUPPORT, PARTNERSHIP
+  score     Int      @default(0)
+  
+  // Organization Link
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  
+  // Voice Call Link
+  sourceCallId    String?  // Link to VoiceCall that created this lead
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([email])
+  @@index([sourceCallId])
+}
+
+model Appointment {
+  id              String   @id @default(cuid())
+  
+  // Customer Details
+  customerName    String
+  customerPhone   String?
+  customerEmail   String?
+  
+  // Appointment Details
+  serviceType     String?  // e.g., "Boiler Repair", "Dental Checkup"
+  date            DateTime
+  duration        Int      @default(60) // Duration in minutes
+  status          String   @default("CONFIRMED") // CONFIRMED, CANCELLED, COMPLETED, NO_SHOW
+  
+  // Address (for service calls)
+  address         String?
+  notes           String?  @db.Text
+  
+  // Source tracking
+  sourceCallId    String?  // Which voice call booked this
+  bookedVia       String   @default("AI_RECEPTIONIST") // AI_RECEPTIONIST, MANUAL, ONLINE
+  
+  // Organization Link
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id])
+  
+  // External Calendar Sync
+  externalCalendarId String?  // Google Calendar event ID, etc.
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([date])
+  @@index([status])
+  @@index([sourceCallId])
+}
+
+model Reminder {
+  id              String   @id @default(cuid())
+  
+  patientName     String
+  appointmentDate DateTime
+  reminderType    String   // SMS, EMAIL, CALL
+  confirmed       Boolean  @default(false)
+  showedUp        Boolean? 
+  
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id])
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([organizationId])
+}
+
+model SMSCampaign {
+  id                String   @id @default(cuid())
+  name              String
+  type              String   // REMINDER | FOLLOW_UP
+  trigger           String   // APPOINTMENT_BOOKED | APPOINTMENT_COMPLETED
+  delayAfterTrigger Int?
+  isDefault         Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  isPaused          Boolean  @default(false)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  messages    SMSMessage[]
+  executions  SMSExecution[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([type, trigger])
+}
+
+model SMSMessage {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   SMSCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  sequence   Int
+  delay      Int      // hours after previous message (0 = immediate)
+  message    String   @db.Text
+
+  createdAt  DateTime @default(now())
+
+  @@index([campaignId, sequence])
+}
+
+model SMSExecution {
+  id              String   @id @default(cuid())
+  campaignId      String
+  campaign        SMSCampaign @relation(fields: [campaignId], references: [id])
+
+  // Trigger context
+  triggerType     String   // APPOINTMENT
+  triggerId       String   // appointment id
+  appointmentId   String?
+
+  // Recipient
+  phoneNumber     String
+  customerName    String?
+
+  // Status
+  status          String   // PENDING | SENT | DELIVERED | FAILED | CANCELLED
+  currentSequence Int      @default(0)
+  totalMessages   Int
+
+  // Scheduling
+  nextSendAt      DateTime?
+  startedAt       DateTime?
+  completedAt     DateTime?
+  cancelledAt     DateTime?
+
+  // Delivery tracking
+  deliveryStatus  Json?
+
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([appointmentId])
+  @@index([status, nextSendAt])
+  @@index([campaignId])
+}
+
+model ActivityLog {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  
+  actorId        String?
+  actorName      String?
+  
+  action         ActionType
+  entityType     String
+  entityId       String?
+  details        String?
+  metadata       Json?
+  
+  createdAt      DateTime     @default(now())
+
+  @@index([organizationId])
+}
+
+model Channel {
+  id             String       @id @default(cuid())
+  name           String
+  type           String       @default("SUPPORT") // SUPPORT, GROUP
+  
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  
+  messages       Message[]
+  
+  lastMessage    String?
+  lastMessageAt  DateTime     @default(now())
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  
+  channelId String
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])
+  
+  read      Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([senderId])
+}
+
+model VoiceCall {
+  id                String   @id @default(cuid())
+  
+  // Vapi Call Data
+  vapiCallId        String   @unique
+  status            String   // queued, ringing, in-progress, ended, hung, failed
+  assistantId       String?
+  assistantName     String?
+  
+  // Call Details
+  fromNumber        String?
+  toNumber          String?
+  startedAt         DateTime?
+  endedAt           DateTime?
+  duration          Int?      // in seconds
+  cost              Float?   // in credits or currency
+  
+  // Call Content
+  transcript        String?  @db.Text
+  lastTranscriptUpdate DateTime?
+  summary           String?  @db.Text
+  outcome           String?  // appointment_booked, helpdesk_resolved, no_action, etc.
+  
+  // Read Status (TEMPORARILY DISABLED - Add back when at home)
+  // isRead            Boolean  @default(false)
+  
+  // Archive Status
+  archived          Boolean  @default(false)
+  archivedAt        DateTime?
+  
+  // Metadata (function calls, custom data)
+  metadata          Json?
+  
+  // Organization Link
+  organizationId    String
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  
+  // Relations
+  tagAssignments    CallTagAssignment[]
+  notes             CallNote[]
+  assignments       CallAssignment[]
+  tasks             CallTask[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([vapiCallId])
+  @@index([status])
+  @@index([startedAt])
+  @@index([archived])
+}
+
+enum ActionType {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  EXPORT
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum OrgRole {
+  OWNER
+  MEMBER
+}
+
+// Call Management Models
+
+model CallTag {
+  id            String   @id @default(cuid())
+  name          String
+  color         String   @default("#3b82f6") // Hex color
+  organizationId String
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  
+  tagAssignments CallTagAssignment[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([organizationId, name])
+  @@index([organizationId])
+}
+
+model CallTagAssignment {
+  id        String   @id @default(cuid())
+  callId    String
+  tagId     String
+  call      VoiceCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+  tag       CallTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+
+  @@unique([callId, tagId])
+  @@index([callId])
+  @@index([tagId])
+}
+
+model CallNote {
+  id          String   @id @default(cuid())
+  callId      String
+  userId      String
+  content     String   @db.Text
+  isInternal  Boolean  @default(true) // Internal notes are only visible to team members
+  call        VoiceCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([callId])
+  @@index([userId])
+}
+
+model CallAssignment {
+  id            String   @id @default(cuid())
+  callId        String
+  assignedToId  String
+  assignedById  String
+  call          VoiceCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+  assignedTo    User     @relation("AssignedTo", fields: [assignedToId], references: [id])
+  assignedBy    User     @relation("AssignedBy", fields: [assignedById], references: [id])
+  
+  createdAt     DateTime @default(now())
+
+  @@unique([callId]) // One assignment per call
+  @@index([callId])
+  @@index([assignedToId])
+}
+
+model CallTask {
+  id          String   @id @default(cuid())
+  callId      String
+  title       String
+  description String?  @db.Text
+  dueDate     DateTime?
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+  assignedToId String?
+  call        VoiceCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+  assignedTo  User?    @relation(fields: [assignedToId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([callId])
+  @@index([assignedToId])
+  @@index([completed])
+  @@index([dueDate])
+}
+
+model CallAutomationRule {
+  id            String   @id @default(cuid())
+  organizationId String
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  name          String
+  triggerType   String   // keyword_match, outcome_match, duration_threshold, status_change
+  conditions    Json     // Store trigger conditions as JSON
+  actions       Json     // Store actions as JSON (tag, assign, create_lead, webhook, etc.)
+  enabled       Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([enabled])
+}
+
+model CallWebhook {
+  id            String   @id @default(cuid())
+  organizationId String
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  name          String
+  url           String
+  events        Json     // Array of event types to trigger on
+  enabled       Boolean  @default(true)
+  secret        String?  // Optional webhook secret for verification
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([enabled])
+}

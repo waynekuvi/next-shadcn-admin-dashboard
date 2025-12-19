@@ -1,0 +1,35 @@
+{
+  "executionId": "test-execution-123",
+  "campaignId": "test-campaign-456",
+  "campaignName": "Test Reminder Campaign",
+  "phoneNumber": "+447911123456",
+  "customerName": "John Doe",
+  "appointmentDate": "2024-12-20T14:00:00Z",
+  "serviceType": "Dental Checkup",
+  "variables": {
+    "name": "John Doe",
+    "date": "2024-12-20T14:00:00Z",
+    "time": "2024-12-20T14:00:00Z",
+    "service": "Dental Checkup",
+    "phone": "+447911123456",
+    "address": "123 Main St, London"
+  },
+  "messages": [
+    {
+      "sequence": 1,
+      "delay": 0,
+      "message": "Hi {{name}}, you have an appointment on {{date}} at {{time}} for {{service}}."
+    },
+    {
+      "sequence": 2,
+      "delay": 24,
+      "message": "Reminder: Your {{service}} appointment is tomorrow at {{time}}. See you at {{address}}!"
+    }
+  ],
+  "nextSendAt": "2024-12-20T14:00:00Z"
+}
+
+
+
+
+

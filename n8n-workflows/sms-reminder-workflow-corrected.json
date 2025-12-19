@@ -1,0 +1,244 @@
+{
+  "name": "SMS Reminder Campaign",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sms-reminder",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "55fb77e3-e66c-420d-b2ee-ffd47f559ade",
+      "name": "Webhook",
+      "webhookId": "56ad879c-5431-4e52-be9b-4a98ec38db3e"
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $input.all()[0].json;\n\n// Extract variables\nconst variables = webhookData.variables || {};\nconst messages = webhookData.messages || [];\n\n// Process first message (immediate)\nconst firstMessage = messages.find(m => m.sequence === 1);\nif (!firstMessage) {\n  return [];\n}\n\n// Replace variables in message\nlet messageText = firstMessage.message;\nmessageText = messageText.replace(/\\{\\{name\\}\\}/g, variables.name || '');\nmessageText = messageText.replace(/\\{\\{date\\}\\}/g, variables.date || '');\nmessageText = messageText.replace(/\\{\\{time\\}\\}/g, variables.time || '');\nmessageText = messageText.replace(/\\{\\{service\\}\\}/g, variables.service || 'appointment');\nmessageText = messageText.replace(/\\{\\{phone\\}\\}/g, variables.phone || '');\nmessageText = messageText.replace(/\\{\\{address\\}\\}/g, variables.address || '');\n\nreturn [{\n  json: {\n    executionId: webhookData.executionId,\n    phoneNumber: webhookData.phoneNumber,\n    message: messageText,\n    sequence: 1,\n    totalMessages: messages.length,\n    allMessages: messages,\n    variables: variables,\n    originalWebhookData: webhookData\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [208, 0],
+      "id": "4bc14206-d671-492a-b3f6-d249c605120a",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "from": "442039856113",
+        "to": "={{ $json.phoneNumber }}",
+        "message": "={{ $json.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.vonage",
+      "typeVersion": 1,
+      "position": [416, 0],
+      "id": "45affe3a-a693-469d-aae0-d0cb62bdf17b",
+      "name": "Send an SMS",
+      "credentials": {
+        "vonageApi": {
+          "id": "r8RK9cmA8wtXBjcv",
+          "name": "Vonage account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/webhooks/sms-status",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "executionId",
+              "value": "={{ $('Code in JavaScript').item.json.executionId }}"
+            },
+            {
+              "name": "messageId",
+              "value": "={{ $json.messageId }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status || 'sent' }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [624, 0],
+      "id": "fccfa494-7e6d-41a0-876b-2d9018672006",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Code in JavaScript').item.json.allMessages[1]?.delay || 24 }}",
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [832, 0],
+      "id": "8700b75e-b283-4193-ba4a-af9f7f4fcd2e",
+      "name": "Wait",
+      "webhookId": "67189551-6c7c-49e1-ac07-3c1f28b1da68"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the original webhook data from the first Code node\nconst originalData = $('Code in JavaScript').item.json;\nconst variables = originalData.variables || {};\nconst messages = originalData.allMessages || [];\n\n// Process second message (sequence 2)\nconst secondMessage = messages.find(m => m.sequence === 2);\nif (!secondMessage) {\n  return [];\n}\n\n// Replace variables in message\nlet messageText = secondMessage.message;\nmessageText = messageText.replace(/\\{\\{name\\}\\}/g, variables.name || '');\nmessageText = messageText.replace(/\\{\\{date\\}\\}/g, variables.date || '');\nmessageText = messageText.replace(/\\{\\{time\\}\\}/g, variables.time || '');\nmessageText = messageText.replace(/\\{\\{service\\}\\}/g, variables.service || 'appointment');\nmessageText = messageText.replace(/\\{\\{phone\\}\\}/g, variables.phone || '');\nmessageText = messageText.replace(/\\{\\{address\\}\\}/g, variables.address || '');\n\nreturn [{\n  json: {\n    executionId: originalData.executionId,\n    phoneNumber: originalData.phoneNumber,\n    message: messageText,\n    sequence: 2,\n    totalMessages: messages.length,\n    allMessages: messages,\n    variables: variables\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 0],
+      "id": "a465ca03-499b-4b1f-80ce-d688d640b841",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "from": "442039856113",
+        "to": "={{ $json.phoneNumber }}",
+        "message": "={{ $json.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.vonage",
+      "typeVersion": 1,
+      "position": [1248, 0],
+      "id": "47c508f3-9b00-42ec-a11d-8ca32fcd2018",
+      "name": "Send an SMS1",
+      "credentials": {
+        "vonageApi": {
+          "id": "r8RK9cmA8wtXBjcv",
+          "name": "Vonage account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/webhooks/sms-status",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "executionId",
+              "value": "={{ $('Code in JavaScript1').item.json.executionId }}"
+            },
+            {
+              "name": "messageId",
+              "value": "={{ $json.messageId }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status || 'sent' }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [1456, 0],
+      "id": "http-request-2",
+      "name": "HTTP Request1"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an SMS": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an SMS1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1f0355719fb8fb773e9a95deb83b91bf17f9d98cd46ece8ead389c70d781c10e"
+  }
+}
+
+
+
+
+

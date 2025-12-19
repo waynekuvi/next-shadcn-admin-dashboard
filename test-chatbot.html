@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Widget Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info code {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        #uplinq-chat-root {
+            min-height: 600px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .test-button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .test-button:hover {
+            background: #0051cc;
+        }
+        .log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .log-entry {
+            margin: 5px 0;
+        }
+        .log-error {
+            color: #f48771;
+        }
+        .log-success {
+            color: #4ec9b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🤖 Chatbot Widget Test Page</h1>
+        
+        <div class="info">
+            <strong>Test Configuration:</strong><br>
+            Organization ID: <code>cmixfcoka0001sbdt935dus65</code><br>
+            API Base URL: <code>http://localhost:3000</code><br>
+            Webhook URL: <code>https://uplinq.app.n8n.cloud/webhook/chatbot-enterprise</code>
+        </div>
+
+        <button class="test-button" onclick="testCustomizationAPI()">Test Customization API</button>
+        <button class="test-button" onclick="clearLog()">Clear Log</button>
+
+        <div id="log" class="log"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Widget Container</h2>
+        <div id="uplinq-chat-root"></div>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        const orgId = 'cmixfcoka0001sbdt935dus65';
+        const apiBaseUrl = 'http://localhost:3000';
+
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function clearLog() {
+            log.innerHTML = '';
+        }
+
+        async function testCustomizationAPI() {
+            addLog('Testing Customization API...', 'info');
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/chatbot/customization/${orgId}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addLog('✅ API Response:', 'success');
+                    addLog(JSON.stringify(data, null, 2), 'success');
+                    
+                    // Test widget mount if available
+                    if (window.UplinqChatWidget) {
+                        addLog('Widget library loaded, attempting mount...', 'info');
+                    } else {
+                        addLog('⚠️ Widget library not yet loaded', 'error');
+                    }
+                } else {
+                    addLog(`❌ API Error (${response.status}): ${data.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                addLog(`❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Load widget
+        addLog('Loading widget script...', 'info');
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://uplinq-chat-widget-bgyucpwf5-waynedevs-projects.vercel.app/uplinq-chat-widget.umd.js?v=' + Date.now();
+            
+            script.onload = function() {
+                addLog('✅ Widget script loaded', 'success');
+                
+                if (window.UplinqChatWidget) {
+                    addLog('✅ UplinqChatWidget found on window object', 'success');
+                    addLog('Attempting to mount widget...', 'info');
+                    
+                    try {
+                        window.UplinqChatWidget.mount('#uplinq-chat-root', {
+                            organizationId: orgId,
+                            webhookUrl: 'https://uplinq.app.n8n.cloud/webhook/chatbot-enterprise',
+                            apiBaseUrl: apiBaseUrl,
+                            initialOpen: true,
+                            hideButton: true
+                        });
+                        addLog('✅ Widget mount called successfully', 'success');
+                    } catch (error) {
+                        addLog(`❌ Mount error: ${error.message}`, 'error');
+                        console.error('Widget mount error:', error);
+                    }
+                } else {
+                    addLog('❌ UplinqChatWidget not found after script load', 'error');
+                }
+            };
+            
+            script.onerror = function() {
+                addLog('❌ Failed to load widget script', 'error');
+            };
+            
+            document.head.appendChild(script);
+        })();
+
+        // Auto-test API on load
+        setTimeout(() => {
+            testCustomizationAPI();
+        }, 1000);
+    </script>
+</body>
+</html>
+

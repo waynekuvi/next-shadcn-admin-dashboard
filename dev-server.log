@@ -1,0 +1,360 @@
+
+> studio-admin@2.0.0 dev
+> next dev
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/macuser/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/macuser/Downloads/next-shadcn-admin-dashboard-main/package-lock.json
+
+   ▲ Next.js 16.0.5 (Turbopack)
+   - Local:         http://localhost:3001
+   - Network:       http://192.168.1.11:3001
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+ ✓ Ready in 1304ms
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 1788ms (compile: 1524ms, render: 264ms)
+ ✓ Compiled in 35ms
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+ GET /api/auth/error 200 in 189ms (compile: 162ms, render: 27ms)
+ GET /api/auth/error 200 in 18ms (compile: 8ms, render: 10ms)
+ GET /api/auth/error 200 in 14ms (compile: 6ms, render: 7ms)
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ○ Compiling / ...
+ GET /api/auth/session 200 in 105ms (compile: 91ms, render: 14ms)
+ GET / 200 in 6.9s (compile: 6.5s, render: 456ms)
+ GET /api/auth/session 200 in 70ms (compile: 38ms, render: 32ms)
+ ○ Compiling /auth/v2/login ...
+ GET /auth/v2/login 200 in 5.1s (compile: 4.2s, proxy.ts: 249ms, render: 672ms)
+ GET /api/auth/providers 200 in 29ms (compile: 9ms, render: 20ms)
+ GET /api/auth/csrf 200 in 16ms (compile: 4ms, render: 12ms)
+prisma:query SELECT "public"."User"."id", "public"."User"."name", "public"."User"."email", "public"."User"."emailVerified", "public"."User"."image", "public"."User"."role"::text, "public"."User"."organizationId", "public"."User"."orgRole"::text FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+ POST /api/auth/callback/credentials 200 in 417ms (compile: 3ms, render: 413ms)
+ ✓ Compiled in 156ms
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 364ms (compile: 150ms, render: 214ms)
+ GET / 200 in 142ms (compile: 8ms, render: 134ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 460ms (compile: 26ms, render: 434ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 186ms (compile: 5ms, render: 181ms)
+ GET /auth/v2/login 200 in 576ms (compile: 26ms, proxy.ts: 154ms, render: 396ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/providers 500 in 139ms (compile: 6ms, render: 133ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 172ms (compile: 13ms, render: 159ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 296ms (compile: 153ms, render: 143ms)
+ GET /auth/v2/login?from=%2Fdashboard%2Fdefault 200 in 169ms (compile: 128ms, proxy.ts: 5ms, render: 36ms)
+ GET /auth/v2/login 200 in 237ms (compile: 3ms, proxy.ts: 5ms, render: 228ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 158ms (compile: 8ms, render: 150ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 263ms (compile: 3ms, render: 259ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 161ms (compile: 9ms, render: 152ms)
+ GET /auth/v2/login 200 in 115ms (compile: 7ms, proxy.ts: 6ms, render: 103ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 358ms (compile: 177ms, render: 180ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 136ms (compile: 6ms, render: 131ms)
+ GET /auth/v2/login 200 in 132ms (compile: 9ms, proxy.ts: 6ms, render: 116ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 177ms (compile: 10ms, render: 168ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 168ms (compile: 15ms, render: 153ms)
+ GET /auth/v2/login 200 in 118ms (compile: 8ms, proxy.ts: 6ms, render: 104ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 431ms (compile: 234ms, render: 197ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 146ms (compile: 4ms, render: 143ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/providers 500 in 251ms (compile: 10ms, render: 241ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 183ms (compile: 5ms, render: 178ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 458ms (compile: 177ms, render: 281ms)
+ GET /auth/v2/login?from=%2Fdashboard%2Fdefault 200 in 506ms (compile: 456ms, proxy.ts: 8ms, render: 43ms)
+ GET /auth/v2/login 200 in 87ms (compile: 3ms, proxy.ts: 5ms, render: 79ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 180ms (compile: 7ms, render: 172ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 160ms (compile: 5ms, render: 154ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/providers 500 in 186ms (compile: 8ms, render: 177ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 216ms (compile: 17ms, render: 199ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 327ms (compile: 20ms, render: 307ms)
+ GET /auth/v2/login?from=%2Fdashboard%2Fdefault 200 in 379ms (compile: 331ms, proxy.ts: 13ms, render: 35ms)
+ GET /auth/v2/login 200 in 204ms (compile: 3ms, proxy.ts: 5ms, render: 195ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 125ms (compile: 7ms, render: 118ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 174ms (compile: 3ms, render: 171ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 120ms (compile: 5ms, render: 116ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at async wrappedHandler (src/app/api/auth/[...nextauth]/route.ts:13:12)
+  11 | ) {
+  12 |   try {
+> 13 |     return await handler(req, context);
+     |            ^
+  14 |   } catch (error: any) {
+  15 |     console.error("❌ NextAuth Handler Error:", {
+  16 |       message: error?.message, {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/providers 500 in 515ms (compile: 218ms, render: 297ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at async wrappedHandler (src/app/api/auth/[...nextauth]/route.ts:13:12)
+  11 | ) {
+  12 |   try {
+> 13 |     return await handler(req, context);
+     |            ^
+  14 |   } catch (error: any) {
+  15 |     console.error("❌ NextAuth Handler Error:", {
+  16 |       message: error?.message, {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 171ms (compile: 7ms, render: 164ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at async wrappedHandler (src/app/api/auth/[...nextauth]/route.ts:13:12)
+  11 | ) {
+  12 |   try {
+> 13 |     return await handler(req, context);
+     |            ^
+  14 |   } catch (error: any) {
+  15 |     console.error("❌ NextAuth Handler Error:", {
+  16 |       message: error?.message, {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 319ms (compile: 161ms, render: 158ms)
+ GET /auth/v2/login?from=%2Fdashboard%2Fdefault 200 in 480ms (compile: 330ms, proxy.ts: 7ms, render: 143ms)
+✅ PrismaAdapter initialized successfully
+✅ PrismaAdapter initialized successfully
+Testing auth configuration...
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+Session result: No session
+ GET /api/test-auth 200 in 633ms (compile: 614ms, render: 19ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 353ms (compile: 136ms, render: 217ms)
+✅ PrismaAdapter initialized successfully
+ GET /auth/v2/login 200 in 762ms (compile: 275ms, proxy.ts: 52ms, render: 436ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 234ms (compile: 10ms, render: 224ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 140ms (compile: 5ms, render: 135ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/providers 500 in 128ms (compile: 5ms, render: 123ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/error 500 in 156ms (compile: 5ms, render: 151ms)
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ POST /api/auth/_log 500 in 387ms (compile: 15ms, render: 373ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 125ms (compile: 6ms, render: 119ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][error][CALLBACK_CREDENTIALS_JWT_ERROR] 
+https://next-auth.js.org/errors#callback_credentials_jwt_error Signin in with credentials only supported if JWT strategy is enabled Error [UnsupportedStrategyError]: Signin in with credentials only supported if JWT strategy is enabled
+    at ignore-listed frames {
+  code: 'CALLBACK_CREDENTIALS_JWT_ERROR'
+}
+ GET /api/auth/session 500 in 179ms (compile: 11ms, render: 168ms)
+✅ PrismaAdapter initialized successfully
+[next-auth][warn][NEXTAUTH_URL] 
+https://next-auth.js.org/warnings#nextauth_url
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+ GET /api/auth/error 200 in 216ms (compile: 190ms, render: 25ms)
+ GET /auth/v2/login 200 in 106ms (compile: 6ms, proxy.ts: 5ms, render: 95ms)
+ GET /api/auth/session 200 in 83ms (compile: 19ms, render: 63ms)
+ GET /api/auth/providers 200 in 15ms (compile: 5ms, render: 10ms)
+ GET /api/auth/csrf 200 in 12ms (compile: 4ms, render: 8ms)
+prisma:query SELECT "public"."User"."id", "public"."User"."name", "public"."User"."email", "public"."User"."emailVerified", "public"."User"."image", "public"."User"."role"::text, "public"."User"."organizationId", "public"."User"."orgRole"::text FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+[next-auth][debug][CHUNKING_SESSION_COOKIE] {
+  message: 'Session cookie exceeds allowed 4096 bytes.',
+  emptyCookieSize: 163,
+  valueSize: 91069,
+  chunks: [
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096,  773
+  ]
+}
+ POST /api/auth/callback/credentials 200 in 514ms (compile: 3ms, render: 511ms)
+ GET /api/auth/error 200 in 16ms (compile: 7ms, render: 9ms)
+ GET /auth/v2/login 200 in 108ms (compile: 6ms, proxy.ts: 4ms, render: 98ms)
+ GET /api/auth/session 200 in 17ms (compile: 7ms, render: 10ms)
+ GET /api/auth/providers 200 in 12ms (compile: 6ms, render: 7ms)
+ GET /api/auth/csrf 200 in 13ms (compile: 3ms, render: 11ms)
+prisma:query SELECT 1
+prisma:query SELECT "public"."User"."id", "public"."User"."name", "public"."User"."email", "public"."User"."emailVerified", "public"."User"."image", "public"."User"."role"::text, "public"."User"."organizationId", "public"."User"."orgRole"::text FROM "public"."User" WHERE ("public"."User"."email" = $1 AND 1=1) LIMIT $2 OFFSET $3
+[next-auth][debug][CHUNKING_SESSION_COOKIE] {
+  message: 'Session cookie exceeds allowed 4096 bytes.',
+  emptyCookieSize: 163,
+  valueSize: 91069,
+  chunks: [
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096, 4096, 4096,
+    4096, 4096, 4096,  773
+  ]
+}
+ POST /api/auth/callback/credentials 200 in 234ms (compile: 2ms, render: 232ms)
+[?25h
